@@ -1,0 +1,60 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath, localize } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang].blog;
+
+const posts = (await getCollection('blog', (e) => e.id.startsWith(`${lang}/`) && !e.data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const locale = lang === 'id' ? 'id-ID' : 'en-GB';
+const fmt = (d: Date) => d.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+const slug = (id: string) => id.replace(`${lang}/`, '');
+---
+
+<section class="section list-section">
+  <div class="wrap">
+    <div class="section-tag">{t.tag}</div>
+    <h1 class="section-title" style="margin-bottom: 40px;">{t.title}</h1>
+
+    {posts.length === 0 ? (
+      <p class="empty-state">{t.empty}</p>
+    ) : (
+      <div class="post-grid">
+        {posts.map((p) => (
+          <a class="post-card" href={localize(`/blog/${slug(p.id)}`, lang)}>
+            {p.data.cover && (
+              <div class="post-thumb"><img src={p.data.cover} alt="" loading="lazy" /></div>
+            )}
+            <div class="post-body">
+              <div class="playbook-tag">{p.data.tag}</div>
+              <div class="post-title">{p.data.title}</div>
+              <div class="playbook-status">{fmt(p.data.date)}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .list-section { padding-top: 120px; }
+  .empty-state { color: var(--ink-soft); font-size: 16px; }
+  .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 900px) { .post-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .post-grid { grid-template-columns: 1fr; } }
+  .post-card {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line); background: var(--surface);
+    text-decoration: none; color: inherit; transition: border-color 0.15s ease;
+  }
+  .post-card:hover { border-color: var(--signal); }
+  .post-thumb { aspect-ratio: 16 / 9; overflow: hidden; background: #dceaf7; border-bottom: 1px solid var(--line); }
+  .post-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post-body { padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .post-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink); }
+</style>

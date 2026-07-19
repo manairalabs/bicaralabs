@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Article from '../../components/Article.astro';
+import { getCollection, render } from 'astro:content';
+import { ui } from '../../i18n/ui';
+import { localize } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (e) => e.id.startsWith('en/') && !e.data.draft);
+  return posts.map((post) => ({ params: { slug: post.id.replace('en/', '') }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateStr = post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.cover}
+  type="article"
+  publishedTime={post.data.date.toISOString()}
+>
+  <Article
+    tag={post.data.tag}
+    title={post.data.title}
+    dateStr={dateStr}
+    cover={post.data.cover}
+    dwg={post.data.dwg}
+    backHref={localize('/blog', 'en')}
+    backLabel={ui.en.blog.back}
+  >
+    <Content />
+  </Article>
+</Layout>

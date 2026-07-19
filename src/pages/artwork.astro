@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BlueprintArt from '../components/BlueprintArt.astro';
+
+const sheets = [
+  { src: '/artwork/jet-engine.webp', title: 'Turbofan — cutaway', dwg: 'bcl-003', fig: 'FIG.03' },
+  { src: '/artwork/rocket-cutaway.webp', title: 'Launch vehicle — cutaway', dwg: 'bcl-004', fig: 'FIG.04' },
+  { src: '/artwork/satellite-detail.webp', title: 'Orbital platform', dwg: 'bcl-005', fig: 'FIG.05' },
+  { src: '/artwork/exploded-modules.webp', title: 'Exploded module assembly', dwg: 'bcl-001', fig: 'FIG.01' },
+  { src: '/artwork/structural-frame.webp', title: 'Structural frame — detail', dwg: 'bcl-002', fig: 'FIG.02' },
+  { src: '/artwork/ai-core.webp', title: 'AI platform — schematic', dwg: 'bcl-006', fig: 'FIG.06' },
+];
+---
+
+<Layout title="Blueprint set" noindex={true}>
+  <section class="section" style="padding-top: 120px;">
+    <div class="wrap">
+      <div class="section-tag">Blueprint set</div>
+      <h1 class="section-title" style="margin-bottom: 32px;">Drawing sheets</h1>
+      <div class="sheet-grid">
+        {sheets.map((s) => <BlueprintArt {...s} ratio="4 / 3" date="2026-07" />)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .sheet-grid { grid-template-columns: 1fr; } }
+</style>

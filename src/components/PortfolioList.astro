@@ -1,0 +1,66 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath, localize } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang].portfolio;
+
+const projects = (await getCollection('portfolio', (e) => e.id.startsWith(`${lang}/`) && !e.data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const slug = (id: string) => id.replace(`${lang}/`, '');
+---
+
+<section class="section list-section">
+  <div class="wrap">
+    <div class="section-tag">{t.tag}</div>
+    <h1 class="section-title" style="margin-bottom: 40px;">{t.title}</h1>
+
+    {projects.length === 0 ? (
+      <p class="empty-state">
+        {t.emptyLead}<a href={localize('/contact', lang)}>{t.emptyLink}</a>{t.emptyTail}
+      </p>
+    ) : (
+      <div class="work-grid">
+        {projects.map((p) => (
+          <a class="work-card" href={localize(`/portfolio/${slug(p.id)}`, lang)}>
+            {p.data.cover && (
+              <div class="work-thumb"><img src={p.data.cover} alt="" loading="lazy" /></div>
+            )}
+            <div class="work-body">
+              <div class="playbook-tag">{p.data.tag}</div>
+              <div class="work-name-lg">{p.data.title}</div>
+              <p class="work-summary">{p.data.summary}</p>
+              {p.data.outcome && <div class="work-outcome">{p.data.outcome}</div>}
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .list-section { padding-top: 120px; }
+  .empty-state { color: var(--ink-soft); font-size: 16px; max-width: 60ch; line-height: 1.6; }
+  .empty-state a { color: var(--signal); }
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 760px) { .work-grid { grid-template-columns: 1fr; } }
+  .work-card {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line); background: var(--surface);
+    text-decoration: none; color: inherit; transition: border-color 0.15s ease;
+  }
+  .work-card:hover { border-color: var(--signal); }
+  .work-thumb { aspect-ratio: 16 / 9; overflow: hidden; background: #dceaf7; border-bottom: 1px solid var(--line); }
+  .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 8px; }
+  .work-name-lg { font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); }
+  .work-summary { color: var(--ink-soft); font-size: 14px; line-height: 1.55; margin: 0; }
+  .work-outcome {
+    margin-top: 4px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em;
+    color: var(--signal-ink); background: var(--signal-wash);
+    border: 1px solid color-mix(in srgb, var(--signal) 30%, transparent); border-radius: 4px; padding: 8px 10px;
+  }
+</style>

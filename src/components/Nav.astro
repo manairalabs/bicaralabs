@@ -1,0 +1,29 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath, localize, switchLangPath } from '../i18n/utils';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang].nav;
+const other = lang === 'en' ? 'id' : 'en';
+
+const links = [
+  { href: localize('/#process', lang), label: t.approach },
+  { href: localize('/portfolio', lang), label: t.portfolio },
+  { href: localize('/blog', lang), label: t.blog },
+];
+---
+
+<div class="nav">
+  <div class="wrap nav-inner">
+    <a href={localize('/', lang)} class="logo" aria-label="bicaralabs">
+      <img src="/bicaralabs-word.png" alt="bicaralabs" class="logo-wordmark" />
+    </a>
+    <div class="nav-mobile-hide">
+      <div class="nav-links">
+        {links.map((l) => <a class="link" href={l.href}>{l.label}</a>)}
+      </div>
+      <a class="pill pill-solid" href={localize('/contact', lang)}>{t.cta}</a>
+      <a class="lang-toggle" href={switchLangPath(Astro.url.pathname, other)}>{other.toUpperCase()}</a>
+    </div>
+  </div>
+</div>

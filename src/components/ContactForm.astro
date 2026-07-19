@@ -1,0 +1,166 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath } from '../i18n/utils';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang].contact;
+---
+
+<section class="section contact-section">
+  <div class="wrap">
+    <div class="section-tag">{t.tag}</div>
+    <h1 class="section-title" style="margin-bottom: 12px;">{t.h1}</h1>
+    <p class="contact-intro">{t.intro}</p>
+
+    <form id="contactForm" class="lead-form" novalidate data-msg-required={t.required} data-msg-error={t.genericError}>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="name">{t.name}</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="form-field">
+          <label for="email">{t.email}</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="company">{t.company}</label>
+          <input id="company" name="company" type="text" autocomplete="organization" />
+        </div>
+        <div class="form-field">
+          <label for="interest">{t.need}</label>
+          <select id="interest" name="interest">
+            <option value="">{t.needOptions.placeholder}</option>
+            <option value="Strategy & ROI">{t.needOptions.strategy}</option>
+            <option value="Buy or Build">{t.needOptions.stack}</option>
+            <option value="Secure & Governed">{t.needOptions.secure}</option>
+            <option value="Build & Enable">{t.needOptions.enable}</option>
+            <option value="Not sure yet">{t.needOptions.unsure}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="message">{t.message}</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+
+      <div id="contactFormError" class="form-error" hidden></div>
+      <div id="contactFormSuccess" class="form-success" hidden>{t.success}</div>
+
+      <button type="submit" class="pill pill-solid form-submit">
+        <span class="btn-label">{t.send}</span>
+        <span class="btn-sending">{t.sending}</span>
+        <span class="btn-sent">{t.sent}</span>
+      </button>
+    </form>
+
+    <div class="contact-alt">
+      {t.altPrefix}<a href="mailto:hello@bicaralabs.com">hello@bicaralabs.com</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section { padding-top: 120px; }
+  .contact-section .wrap { max-width: 720px; }
+  .contact-intro { color: var(--ink-soft); font-size: 17px; line-height: 1.6; max-width: 52ch; margin: 0 0 40px; }
+  .lead-form { display: flex; flex-direction: column; gap: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+  .form-field { display: flex; flex-direction: column; gap: 8px; }
+  .form-field label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 12px 14px; font-family: var(--font-display); font-size: 15px; color: var(--ink);
+    outline: none; transition: border-color 0.15s ease;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus { border-color: var(--signal); }
+  .form-field textarea { resize: vertical; }
+  .form-submit { align-self: flex-start; border: none; cursor: pointer; font: inherit; }
+  .form-submit .btn-sending,
+  .form-submit .btn-sent { display: none; }
+  .form-submit.loading .btn-label { display: none; }
+  .form-submit.loading .btn-sending { display: inline; }
+  .form-submit.success .btn-label,
+  .form-submit.success .btn-sending { display: none; }
+  .form-submit.success .btn-sent { display: inline; }
+  .form-error { color: #b4362f; font-size: 14px; background: rgba(180, 54, 47, 0.08); border: 1px solid rgba(180, 54, 47, 0.2); border-radius: 4px; padding: 10px 14px; }
+  .form-success { color: var(--signal-ink); font-size: 14px; background: var(--signal-wash); border: 1px solid var(--signal); border-radius: 4px; padding: 10px 14px; }
+  .contact-alt { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 14px; }
+  .contact-alt a { color: var(--signal); }
+</style>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById('contactForm');
+    if (!form) return;
+
+    var successEl = document.getElementById('contactFormSuccess');
+    var errorEl = document.getElementById('contactFormError');
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var msgRequired = form.getAttribute('data-msg-required') || 'Name, email, and message are required.';
+    var msgError = form.getAttribute('data-msg-error') || 'Something went wrong. Please try again.';
+
+    // bicaralabs lead-form on the Bicara dogfood org. Stable UUID.
+    var submitUrl = 'https://dashboard.bicara.ai/api/public/lead-forms/019e1ea5-4395-7b24-88c5-65ed2c95c167/submit';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      successEl.hidden = true;
+      errorEl.hidden = true;
+
+      var data = new FormData(form);
+      var name = (data.get('name') || '').toString().trim();
+      var email = (data.get('email') || '').toString().trim();
+      var company = (data.get('company') || '').toString().trim();
+      var interest = (data.get('interest') || '').toString().trim();
+      var message = (data.get('message') || '').toString().trim();
+
+      if (!name || !email || !message) {
+        errorEl.textContent = msgRequired;
+        errorEl.hidden = false;
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      var qs = new URLSearchParams(window.location.search);
+
+      fetch(submitUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name, email: email, company: company, message: message, interest: interest,
+          landingPage: window.location.pathname,
+          utm_source: qs.get('utm_source') || '', utm_medium: qs.get('utm_medium') || '',
+          utm_campaign: qs.get('utm_campaign') || '', utm_content: qs.get('utm_content') || '',
+          utm_term: qs.get('utm_term') || ''
+        })
+      })
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            submitBtn.classList.remove('loading');
+            submitBtn.classList.add('success');
+            successEl.hidden = false;
+            return;
+          }
+          return res.json().then(function (d) {
+            throw new Error((d && (d.error || d.message)) || msgError);
+          });
+        })
+        .catch(function (err) {
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          errorEl.textContent = (err && err.message) || msgError;
+          errorEl.hidden = false;
+        });
+    });
+  })();
+</script>

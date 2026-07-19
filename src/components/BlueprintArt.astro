@@ -1,0 +1,110 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  dwg: string;
+  scale?: string;
+  rev?: string;
+  fig?: string;
+  date?: string;
+  alt?: string;
+  ratio?: string;
+}
+const {
+  src, title, dwg, scale = '1:1', rev = '01', fig = 'FIG.01', date = '2026', alt,
+  ratio = '4 / 3',
+} = Astro.props;
+---
+
+<figure class="bpart" style={`aspect-ratio:${ratio}`}>
+  <img src={src} alt={alt ?? title} loading="lazy" />
+  <span class="bp-frame" aria-hidden="true"></span>
+  <span class="bp-eyebrow">bicaralabs · {fig}</span>
+  <div class="bp-titleblock">
+    <div class="bp-brand">bicaralabs</div>
+    <div class="bp-title">{title}</div>
+    <div class="bp-meta">
+      <span>DWG {dwg}</span><span>SCALE {scale}</span><span>REV.{rev}</span><span>{date}</span>
+    </div>
+  </div>
+</figure>
+
+<style>
+  .bpart {
+    position: relative;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #dceaf7;
+  }
+  .bpart img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* thin registration frame with corner ticks */
+  .bp-frame {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid color-mix(in srgb, var(--signal) 34%, transparent);
+    pointer-events: none;
+  }
+  .bp-frame::before,
+  .bp-frame::after {
+    content: "";
+    position: absolute;
+    width: 12px; height: 12px;
+    border: 1px solid var(--signal);
+  }
+  .bp-frame::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+  .bp-frame::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+  .bp-eyebrow {
+    position: absolute;
+    top: 22px; left: 26px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+  }
+
+  .bp-titleblock {
+    position: absolute;
+    right: 22px; bottom: 22px;
+    font-family: var(--font-mono);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    border: 1px solid var(--signal);
+    min-width: 210px;
+    backdrop-filter: blur(2px);
+  }
+  .bp-brand {
+    color: var(--signal);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-bottom: 1px solid color-mix(in srgb, var(--signal) 28%, transparent);
+  }
+  .bp-title {
+    padding: 6px 10px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid color-mix(in srgb, var(--signal) 28%, transparent);
+  }
+  .bp-meta { display: flex; color: var(--ink-soft); font-size: 9px; letter-spacing: 0.04em; }
+  .bp-meta span { padding: 5px 8px; border-right: 1px solid color-mix(in srgb, var(--signal) 18%, transparent); }
+  .bp-meta span:last-child { border-right: 0; }
+
+  @media (max-width: 520px) {
+    .bp-titleblock { right: 12px; bottom: 12px; min-width: 0; }
+    .bp-meta span { padding: 4px 6px; }
+  }
+</style>

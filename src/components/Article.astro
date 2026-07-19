@@ -1,0 +1,46 @@
+---
+import BlueprintArt from './BlueprintArt.astro';
+
+interface Props {
+  tag: string;
+  title: string;
+  dateStr?: string;
+  summary?: string;
+  outcome?: string;
+  backHref: string;
+  backLabel: string;
+  cover?: string;
+  dwg?: string;
+}
+const { tag, title, dateStr, summary, outcome, backHref, backLabel, cover, dwg } = Astro.props;
+---
+
+<article class="section article-section">
+  <div class="wrap article-wrap">
+    <a href={backHref} class="section-link">{backLabel}</a>
+    <div class="section-tag" style="margin-top: 28px;">{tag}</div>
+    <h1 class="section-title" style="margin-bottom: 10px;">{title}</h1>
+    {summary && <p class="project-summary">{summary}</p>}
+    {dateStr && <div class="article-date">{dateStr}</div>}
+    {outcome && <div class="project-outcome">{outcome}</div>}
+    {cover && (
+      <div class="article-cover">
+        <BlueprintArt src={cover} title={title} dwg={dwg ?? 'bcl-000'} fig={tag.toUpperCase()} ratio="16 / 9" date={dateStr ?? '2026'} alt="" />
+      </div>
+    )}
+    <div class="prose"><slot /></div>
+  </div>
+</article>
+
+<style>
+  .article-section { padding-top: 120px; }
+  .article-wrap { max-width: 720px; }
+  .article-date { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); margin-bottom: 24px; }
+  .article-cover { margin: 8px 0 36px; }
+  .project-summary { color: var(--ink-soft); font-size: 18px; line-height: 1.6; margin: 0 0 16px; }
+  .project-outcome {
+    font-family: var(--font-mono); font-size: 13px; color: var(--signal-ink);
+    background: var(--signal-wash); border: 1px solid var(--signal); border-radius: 4px;
+    padding: 12px 16px; margin-bottom: 40px;
+  }
+</style>

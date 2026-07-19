@@ -1,0 +1,41 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath, localize } from '../i18n/utils';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang].footer;
+---
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href={localize('/', lang)} class="logo" aria-label="bicaralabs">
+          <img src="/bicaralabs-word.png" alt="bicaralabs" class="logo-wordmark logo-wordmark--footer" />
+        </a>
+        <p class="footer-desc">{t.desc}</p>
+      </div>
+      <div>
+        <div class="footer-label">{t.links}</div>
+        <div class="footer-links">
+          <a href={localize('/#process', lang)}>{t.approach}</a>
+          <a href={localize('/portfolio', lang)}>{t.portfolio}</a>
+          <a href={localize('/blog', lang)}>{t.blog}</a>
+          <a href={localize('/contact', lang)}>{t.contact}</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-label">{t.find}</div>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.upwork.com" target="_blank" rel="noopener">Upwork</a>
+          <a href="mailto:hello@bicaralabs.com">hello@bicaralabs.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 bicaralabs</span>
+      <span>BANDUNG, INDONESIA</span>
+    </div>
+  </div>
+</footer>

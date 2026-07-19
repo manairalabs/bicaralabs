@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { ui } from '../../i18n/ui';
+
+const t = ui.id.contact;
+---
+
+<Layout title={t.metaTitle} description={t.metaDesc}>
+  <ContactForm />
+</Layout>

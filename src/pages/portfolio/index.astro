@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PortfolioList from '../../components/PortfolioList.astro';
+import { ui } from '../../i18n/ui';
+---
+
+<Layout title={ui.en.nav.portfolio} description={ui.en.portfolio.title}>
+  <PortfolioList />
+</Layout>

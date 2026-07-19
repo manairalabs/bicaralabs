@@ -1,0 +1,247 @@
+---
+// Vector "AI system architecture" blueprint for the hero — dense technical drawing.
+// Central AI core (gear + node grid) wired to labelled business modules, with a
+// detail inset, dimension line, integration ports and registration marks.
+---
+
+<figure class="hero-blueprint" aria-hidden="true">
+  <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="hgrid" width="30" height="30" patternUnits="userSpaceOnUse">
+        <path d="M30 0 H0 V30" fill="none" stroke="currentColor" stroke-opacity="0.06" stroke-width="1" />
+      </pattern>
+    </defs>
+    <rect width="1440" height="760" fill="url(#hgrid)" />
+<line x1="890.8" y1="278.4" x2="849.5" y2="193.0" class="bus"/>
+<line x1="845.2" y1="184.0" x2="852.0" y2="189.8" class="bus"/>
+<line x1="845.2" y1="184.0" x2="845.4" y2="193.0" class="bus"/>
+<circle cx="890.8" cy="278.4" r="3.2" class="dot"/>
+<circle cx="868.0" cy="231.2" r="2.4" class="dot"/>
+<text x="874.0" y="225.2" text-anchor="start" class="micro">queue</text>
+<line x1="1019.7" y1="310.3" x2="1172.1" y2="197.9" class="bus"/>
+<line x1="1180.2" y1="192.0" x2="1175.7" y2="199.8" class="bus"/>
+<line x1="1180.2" y1="192.0" x2="1171.4" y2="193.9" class="bus"/>
+<circle cx="1019.7" cy="310.3" r="3.2" class="dot"/>
+<circle cx="1099.9" cy="251.1" r="2.4" class="dot"/>
+<text x="1105.9" y="245.1" text-anchor="start" class="micro">rules</text>
+<line x1="1040.0" y1="369.4" x2="1242.0" y2="364.5" class="bus"/>
+<line x1="1252.0" y1="364.2" x2="1243.9" y2="368.1" class="bus"/>
+<line x1="1252.0" y1="364.2" x2="1243.7" y2="360.8" class="bus"/>
+<circle cx="1040.0" cy="369.4" r="3.2" class="dot"/>
+<circle cx="1146.0" cy="366.8" r="2.4" class="dot"/>
+<text x="1152.0" y="360.8" text-anchor="start" class="micro">ledger</text>
+<line x1="1017.2" y1="437.0" x2="1162.8" y2="553.7" class="bus"/>
+<line x1="1170.6" y1="560.0" x2="1161.9" y2="557.7" class="bus"/>
+<line x1="1170.6" y1="560.0" x2="1166.5" y2="552.0" class="bus"/>
+<circle cx="1017.2" cy="437.0" r="3.2" class="dot"/>
+<circle cx="1093.9" cy="498.5" r="2.4" class="dot"/>
+<text x="1099.9" y="492.5" text-anchor="start" class="micro">pipeline</text>
+<line x1="892.4" y1="466.4" x2="850.6" y2="556.9" class="bus"/>
+<line x1="846.4" y1="566.0" x2="846.5" y2="557.0" class="bus"/>
+<line x1="846.4" y1="566.0" x2="853.2" y2="560.1" class="bus"/>
+<circle cx="892.4" cy="466.4" r="3.2" class="dot"/>
+<circle cx="869.4" cy="516.2" r="2.4" class="dot"/>
+<text x="875.4" y="510.2" text-anchor="start" class="micro">vectors</text>
+<line x1="981.3" y1="465.6" x2="1042.0" y2="591.0" class="bus"/>
+<line x1="1046.4" y1="600.0" x2="1039.5" y2="594.2" class="bus"/>
+<line x1="1046.4" y1="600.0" x2="1046.1" y2="591.0" class="bus"/>
+<circle cx="981.3" cy="465.6" r="3.2" class="dot"/>
+<circle cx="1013.8" cy="532.8" r="2.4" class="dot"/>
+<text x="1019.8" y="526.8" text-anchor="start" class="micro">tasks</text>
+<rect x="726" y="84" width="190" height="100" rx="3" class="box"/>
+<line x1="726.0" y1="110.0" x2="916.0" y2="110.0" class="thin"/>
+<text x="738.0" y="102.0" text-anchor="start" class="lbl">AGENT</text>
+<text x="906.0" y="102.0" text-anchor="end" class="micro">M1</text>
+<circle cx="736.0" cy="126.0" r="2.2" class="sq"/>
+<line x1="746.0" y1="126.0" x2="902.0" y2="126.0" class="thin"/>
+<circle cx="736.0" cy="141.0" r="2.2" class="sq"/>
+<line x1="746.0" y1="141.0" x2="888.0" y2="141.0" class="thin"/>
+<circle cx="736.0" cy="156.0" r="2.2" class="sq"/>
+<line x1="746.0" y1="156.0" x2="874.0" y2="156.0" class="thin"/>
+<circle cx="821.0" cy="184.0" r="3" class="dot"/>
+<rect x="1150" y="92" width="196" height="100" rx="3" class="box"/>
+<line x1="1150.0" y1="118.0" x2="1346.0" y2="118.0" class="thin"/>
+<text x="1162.0" y="110.0" text-anchor="start" class="lbl">GUARDRAIL</text>
+<text x="1336.0" y="110.0" text-anchor="end" class="micro">M2</text>
+<rect x="1160.0" y="130.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<rect x="1218.6666666666667" y="130.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<rect x="1277.3333333333333" y="130.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<rect x="1160.0" y="156.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<rect x="1218.6666666666667" y="156.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<rect x="1277.3333333333333" y="156.0" width="53.666666666666664" height="21.0" rx="3" class="cell"/>
+<circle cx="1248.0" cy="192.0" r="3" class="dot"/>
+<rect x="1252" y="300" width="182" height="124" rx="3" class="box"/>
+<line x1="1252.0" y1="326.0" x2="1434.0" y2="326.0" class="thin"/>
+<text x="1264.0" y="318.0" text-anchor="start" class="lbl">FINANCE</text>
+<text x="1424.0" y="318.0" text-anchor="end" class="micro">M3</text>
+<polyline points="1260,376 1293,344 1326,347 1360,382 1393,410 1426,401" class="thin2"/>
+<circle cx="1260.0" cy="376.0" r="1.8" class="dot"/>
+<circle cx="1293.2" cy="343.9" r="1.8" class="dot"/>
+<circle cx="1326.4" cy="346.9" r="1.8" class="dot"/>
+<circle cx="1359.6" cy="381.7" r="1.8" class="dot"/>
+<circle cx="1392.8" cy="410.3" r="1.8" class="dot"/>
+<circle cx="1426.0" cy="401.4" r="1.8" class="dot"/>
+<circle cx="1343.0" cy="424.0" r="3" class="dot"/>
+<rect x="1150" y="560" width="196" height="124" rx="3" class="box"/>
+<line x1="1150.0" y1="586.0" x2="1346.0" y2="586.0" class="thin"/>
+<text x="1162.0" y="578.0" text-anchor="start" class="lbl">CRM</text>
+<text x="1336.0" y="578.0" text-anchor="end" class="micro">M4</text>
+<rect x="1160.0" y="635.0" width="29.200000000000003" height="37.0" rx="3" class="fillbar"/>
+<rect x="1195.2" y="612.8" width="29.200000000000003" height="59.2" rx="3" class="fillbar"/>
+<rect x="1230.4" y="642.4" width="29.200000000000003" height="29.6" rx="3" class="fillbar"/>
+<rect x="1265.6" y="601.7" width="29.200000000000003" height="70.3" rx="3" class="fillbar"/>
+<rect x="1300.8" y="623.9" width="29.200000000000003" height="48.1" rx="3" class="fillbar"/>
+<circle cx="1248.0" cy="560.0" r="3" class="dot"/>
+<rect x="726" y="566" width="190" height="110" rx="3" class="box"/>
+<line x1="726.0" y1="592.0" x2="916.0" y2="592.0" class="thin"/>
+<text x="738.0" y="584.0" text-anchor="start" class="lbl">DATA STORE</text>
+<text x="906.0" y="584.0" text-anchor="end" class="micro">M5</text>
+<ellipse cx="821.0" cy="606" rx="26" ry="7" class="thin2"/>
+<line x1="795.0" y1="606.0" x2="795.0" y2="662.0" class="thin"/>
+<line x1="847.0" y1="606.0" x2="847.0" y2="662.0" class="thin"/>
+<path d="M795.0 662 A26 7 0 0 0 847.0 662" class="thin2"/>
+<path d="M795.0 634.0 A26 7 0 0 0 847.0 634.0" class="thin"/>
+<circle cx="821.0" cy="566.0" r="3" class="dot"/>
+<rect x="968" y="600" width="210" height="110" rx="3" class="box"/>
+<line x1="968.0" y1="626.0" x2="1178.0" y2="626.0" class="thin"/>
+<text x="980.0" y="618.0" text-anchor="start" class="lbl">AUTOMATION</text>
+<text x="1168.0" y="618.0" text-anchor="end" class="micro">M6</text>
+<rect x="978.0" y="660.0" width="53.333333333333336" height="16" rx="3" class="cell"/>
+<line x1="1031.3" y1="668.0" x2="1041.3" y2="668.0" class="thin"/>
+<rect x="1041.3333333333333" y="660.0" width="53.333333333333336" height="16" rx="3" class="cell"/>
+<line x1="1094.7" y1="668.0" x2="1104.7" y2="668.0" class="thin"/>
+<rect x="1104.6666666666667" y="660.0" width="53.333333333333336" height="16" rx="3" class="cell"/>
+<circle cx="1073.0" cy="600.0" r="3" class="dot"/>
+<polygon points="936.0,252.0 1039.9,312.0 1039.9,432.0 936.0,492.0 832.1,432.0 832.1,312.0" class="dash"/>
+<line x1="1038.0" y1="372.0" x2="1048.0" y2="372.0" class="ring"/>
+<line x1="1035.4" y1="394.7" x2="1045.2" y2="396.9" class="ring"/>
+<line x1="1027.9" y1="416.3" x2="1036.9" y2="420.6" class="ring"/>
+<line x1="1015.7" y1="435.6" x2="1023.6" y2="441.8" class="ring"/>
+<line x1="999.6" y1="451.7" x2="1005.8" y2="459.6" class="ring"/>
+<line x1="980.3" y1="463.9" x2="984.6" y2="472.9" class="ring"/>
+<line x1="958.7" y1="471.4" x2="960.9" y2="481.2" class="ring"/>
+<line x1="936.0" y1="474.0" x2="936.0" y2="484.0" class="ring"/>
+<line x1="913.3" y1="471.4" x2="911.1" y2="481.2" class="ring"/>
+<line x1="891.7" y1="463.9" x2="887.4" y2="472.9" class="ring"/>
+<line x1="872.4" y1="451.7" x2="866.2" y2="459.6" class="ring"/>
+<line x1="856.3" y1="435.6" x2="848.4" y2="441.8" class="ring"/>
+<line x1="844.1" y1="416.3" x2="835.1" y2="420.6" class="ring"/>
+<line x1="836.6" y1="394.7" x2="826.8" y2="396.9" class="ring"/>
+<line x1="834.0" y1="372.0" x2="824.0" y2="372.0" class="ring"/>
+<line x1="836.6" y1="349.3" x2="826.8" y2="347.1" class="ring"/>
+<line x1="844.1" y1="327.7" x2="835.1" y2="323.4" class="ring"/>
+<line x1="856.3" y1="308.4" x2="848.4" y2="302.2" class="ring"/>
+<line x1="872.4" y1="292.3" x2="866.2" y2="284.4" class="ring"/>
+<line x1="891.7" y1="280.1" x2="887.4" y2="271.1" class="ring"/>
+<line x1="913.3" y1="272.6" x2="911.1" y2="262.8" class="ring"/>
+<line x1="936.0" y1="270.0" x2="936.0" y2="260.0" class="ring"/>
+<line x1="958.7" y1="272.6" x2="960.9" y2="262.8" class="ring"/>
+<line x1="980.3" y1="280.1" x2="984.6" y2="271.1" class="ring"/>
+<line x1="999.6" y1="292.3" x2="1005.8" y2="284.4" class="ring"/>
+<line x1="1015.7" y1="308.4" x2="1023.6" y2="302.2" class="ring"/>
+<line x1="1027.9" y1="327.7" x2="1036.9" y2="323.4" class="ring"/>
+<line x1="1035.4" y1="349.3" x2="1045.2" y2="347.1" class="ring"/>
+<circle cx="936" cy="372" r="104" class="ring"/>
+<circle cx="936" cy="372" r="74" class="ring"/>
+<circle cx="936" cy="372" r="46" class="ring"/>
+<circle cx="904.0" cy="356.0" r="1.6" class="dot"/>
+<circle cx="904.0" cy="372.0" r="1.6" class="dot"/>
+<circle cx="904.0" cy="388.0" r="1.6" class="dot"/>
+<circle cx="920.0" cy="340.0" r="1.6" class="dot"/>
+<circle cx="920.0" cy="356.0" r="1.6" class="dot"/>
+<circle cx="920.0" cy="372.0" r="1.6" class="dot"/>
+<circle cx="920.0" cy="388.0" r="1.6" class="dot"/>
+<circle cx="920.0" cy="404.0" r="1.6" class="dot"/>
+<circle cx="936.0" cy="340.0" r="1.6" class="dot"/>
+<circle cx="936.0" cy="356.0" r="1.6" class="dot"/>
+<circle cx="936.0" cy="372.0" r="1.6" class="dot"/>
+<circle cx="936.0" cy="388.0" r="1.6" class="dot"/>
+<circle cx="936.0" cy="404.0" r="1.6" class="dot"/>
+<circle cx="952.0" cy="340.0" r="1.6" class="dot"/>
+<circle cx="952.0" cy="356.0" r="1.6" class="dot"/>
+<circle cx="952.0" cy="372.0" r="1.6" class="dot"/>
+<circle cx="952.0" cy="388.0" r="1.6" class="dot"/>
+<circle cx="952.0" cy="404.0" r="1.6" class="dot"/>
+<circle cx="968.0" cy="356.0" r="1.6" class="dot"/>
+<circle cx="968.0" cy="372.0" r="1.6" class="dot"/>
+<circle cx="968.0" cy="388.0" r="1.6" class="dot"/>
+<line x1="832.0" y1="372.0" x2="1040.0" y2="372.0" class="axis"/>
+<line x1="936.0" y1="268.0" x2="936.0" y2="476.0" class="axis"/>
+<circle cx="936" cy="372" r="10" class="corehub"/>
+<text x="936.0" y="510.0" text-anchor="middle" class="core-lbl">AI CORE</text>
+<text x="936.0" y="526.0" text-anchor="middle" class="micro">orchestration</text>
+<line x1="998.4" y1="299.2" x2="1163.6" y2="286.4" class="lead"/>
+<circle cx="1200" cy="250" r="52" class="box"/>
+<line x1="1238.0" y1="250.0" x2="1248.0" y2="250.0" class="ring"/>
+<line x1="1232.9" y1="269.0" x2="1241.6" y2="274.0" class="ring"/>
+<line x1="1219.0" y1="282.9" x2="1224.0" y2="291.6" class="ring"/>
+<line x1="1200.0" y1="288.0" x2="1200.0" y2="298.0" class="ring"/>
+<line x1="1181.0" y1="282.9" x2="1176.0" y2="291.6" class="ring"/>
+<line x1="1167.1" y1="269.0" x2="1158.4" y2="274.0" class="ring"/>
+<line x1="1162.0" y1="250.0" x2="1152.0" y2="250.0" class="ring"/>
+<line x1="1167.1" y1="231.0" x2="1158.4" y2="226.0" class="ring"/>
+<line x1="1181.0" y1="217.1" x2="1176.0" y2="208.4" class="ring"/>
+<line x1="1200.0" y1="212.0" x2="1200.0" y2="202.0" class="ring"/>
+<line x1="1219.0" y1="217.1" x2="1224.0" y2="208.4" class="ring"/>
+<line x1="1232.9" y1="231.0" x2="1241.6" y2="226.0" class="ring"/>
+<circle cx="1200" cy="250" r="14" class="ring"/>
+<circle cx="1200.0" cy="250.0" r="3" class="corehub"/>
+<text x="1200.0" y="190.0" text-anchor="middle" class="micro">DETAIL A · 4:1</text>
+<rect x="1420" y="300" width="20" height="15" rx="2" class="box"/>
+<line x1="1420.0" y1="307.0" x2="1408.0" y2="307.0" class="thin"/>
+<rect x="1420" y="340" width="20" height="15" rx="2" class="box"/>
+<line x1="1420.0" y1="347.0" x2="1408.0" y2="347.0" class="thin"/>
+<rect x="1420" y="440" width="20" height="15" rx="2" class="box"/>
+<line x1="1420.0" y1="447.0" x2="1408.0" y2="447.0" class="thin"/>
+<rect x="1420" y="480" width="20" height="15" rx="2" class="box"/>
+<line x1="1420.0" y1="487.0" x2="1408.0" y2="487.0" class="thin"/>
+<text x="1438.0" y="288.0" text-anchor="end" class="micro">PORTS</text>
+<line x1="120.0" y1="54.0" x2="1320.0" y2="54.0" class="dim"/>
+<line x1="120.0" y1="48.0" x2="120.0" y2="60.0" class="dim"/>
+<line x1="1320.0" y1="48.0" x2="1320.0" y2="60.0" class="dim"/>
+<line x1="240.0" y1="50.0" x2="240.0" y2="58.0" class="dim"/>
+<line x1="360.0" y1="50.0" x2="360.0" y2="58.0" class="dim"/>
+<line x1="480.0" y1="50.0" x2="480.0" y2="58.0" class="dim"/>
+<line x1="600.0" y1="50.0" x2="600.0" y2="58.0" class="dim"/>
+<line x1="720.0" y1="50.0" x2="720.0" y2="58.0" class="dim"/>
+<line x1="840.0" y1="50.0" x2="840.0" y2="58.0" class="dim"/>
+<line x1="960.0" y1="50.0" x2="960.0" y2="58.0" class="dim"/>
+<line x1="1080.0" y1="50.0" x2="1080.0" y2="58.0" class="dim"/>
+<line x1="1200.0" y1="50.0" x2="1200.0" y2="58.0" class="dim"/>
+<text x="720.0" y="44.0" text-anchor="middle" class="micro">SYSTEM ARCHITECTURE · Ø 1 CORE · 6 MODULES</text>
+<line x1="28.0" y1="40.0" x2="52.0" y2="40.0" class="reg"/>
+<line x1="40.0" y1="28.0" x2="40.0" y2="52.0" class="reg"/>
+<circle cx="40" cy="40" r="7" class="reg"/>
+<line x1="1388.0" y1="40.0" x2="1412.0" y2="40.0" class="reg"/>
+<line x1="1400.0" y1="28.0" x2="1400.0" y2="52.0" class="reg"/>
+<circle cx="1400" cy="40" r="7" class="reg"/>
+<line x1="28.0" y1="720.0" x2="52.0" y2="720.0" class="reg"/>
+<line x1="40.0" y1="708.0" x2="40.0" y2="732.0" class="reg"/>
+<circle cx="40" cy="720" r="7" class="reg"/>
+<line x1="1388.0" y1="720.0" x2="1412.0" y2="720.0" class="reg"/>
+<line x1="1400.0" y1="708.0" x2="1400.0" y2="732.0" class="reg"/>
+<circle cx="1400" cy="720" r="7" class="reg"/>  </svg>
+</figure>
+
+<style>
+  .hero-blueprint { position: absolute; inset: 0; margin: 0; color: var(--signal); }
+  .hero-blueprint svg { width: 100%; height: 100%; display: block; }
+  .box { fill: none; stroke: var(--signal); stroke-width: 1.3; }
+  .thin { fill: none; stroke: var(--signal); stroke-width: 0.8; opacity: 0.4; }
+  .thin2 { fill: none; stroke: var(--signal); stroke-width: 1.1; }
+  .bus { fill: none; stroke: var(--signal); stroke-width: 1.4; }
+  .ring { fill: none; stroke: var(--signal); stroke-width: 1.1; }
+  .dash { fill: none; stroke: var(--signal); stroke-width: 1; stroke-dasharray: 5 4; opacity: 0.5; }
+  .dot { fill: var(--surface); stroke: var(--signal); stroke-width: 1.2; }
+  .sq { fill: var(--signal); stroke: none; }
+  .cell { fill: none; stroke: var(--signal); stroke-width: 0.8; opacity: 0.5; }
+  .fillbar { fill: var(--signal-wash); stroke: var(--signal); stroke-width: 0.9; }
+  .corehub { fill: var(--signal); }
+  .axis { fill: none; stroke: var(--ink-faint); stroke-width: 0.7; stroke-dasharray: 6 3 2 3; opacity: 0.55; }
+  .lead { fill: none; stroke: var(--ink-faint); stroke-width: 0.7; }
+  .dim { fill: none; stroke: var(--ink-faint); stroke-width: 0.9; }
+  .reg { fill: none; stroke: var(--signal); stroke-width: 1; opacity: 0.65; }
+  .lbl { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; fill: var(--ink-soft); }
+  .core-lbl { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; fill: var(--signal); }
+  .micro { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.05em; fill: var(--ink-faint); }
+</style>

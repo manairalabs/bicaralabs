@@ -1,0 +1,9 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogList from '../../../components/BlogList.astro';
+import { ui } from '../../../i18n/ui';
+---
+
+<Layout title={ui.id.nav.blog} description={ui.id.blog.title}>
+  <BlogList />
+</Layout>

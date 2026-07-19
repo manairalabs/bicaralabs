@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Article from '../../../components/Article.astro';
+import { getCollection, render } from 'astro:content';
+import { ui } from '../../../i18n/ui';
+import { localize } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('portfolio', (e) => e.id.startsWith('id/') && !e.data.draft);
+  return projects.map((project) => ({ params: { slug: project.id.replace('id/', '') }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout
+  title={project.data.title}
+  description={project.data.summary}
+  image={project.data.cover}
+  type="article"
+  publishedTime={project.data.date.toISOString()}
+>
+  <Article
+    tag={project.data.tag}
+    title={project.data.title}
+    summary={project.data.summary}
+    outcome={project.data.outcome}
+    cover={project.data.cover}
+    dwg={project.data.dwg}
+    backHref={localize('/portfolio', 'id')}
+    backLabel={ui.id.portfolio.back}
+  >
+    <Content />
+  </Article>
+</Layout>

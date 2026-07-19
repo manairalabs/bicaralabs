@@ -1,0 +1,169 @@
+---
+import { ui } from '../i18n/ui';
+import { getLangFromPath, localize } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromPath(Astro.url.pathname);
+const t = ui[lang];
+
+const posts = (await getCollection('blog', (e) => e.id.startsWith(`${lang}/`) && !e.data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const capKeys = ['strategy', 'stack', 'secure', 'enable'] as const;
+---
+
+<!-- Hero -->
+<section class="hero hero--split">
+  <div class="hero-art" aria-hidden="true">
+    <img src="/artwork/hero-cad.webp" class="hero-art-img" alt="" />
+    <span class="hero-art-fade"></span>
+  </div>
+  <div class="wrap hero-inner">
+    <div class="hero-content">
+      <h1 class="hero-title">{t.hero.titleLead}<em>{t.hero.titleEm}</em></h1>
+      <p class="hero-sub">{t.hero.sub}</p>
+      <div class="hero-ctas">
+        <a href={localize('/contact', lang)} class="pill pill-solid">{t.hero.ctaPrimary}</a>
+        <a href="#process" class="pill pill-outline">{t.hero.ctaSecondary}</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-corner">bicaralabs · SYSTEM PLAN · REV.02</div>
+</section>
+
+<!-- What we do -->
+<section class="section" id="capabilities">
+  <div class="wrap">
+    <div class="section-tag">{t.caps.tag}</div>
+    <h2 class="section-title">{t.caps.title}</h2>
+    <div class="tabs" role="tablist">
+      {capKeys.map((k, i) => (
+        <button class:list={['tab-btn', { active: i === 0 }]} data-tab={k} set:html={t.caps.tabs[k]} />
+      ))}
+    </div>
+    {capKeys.map((k, i) => (
+      <div class:list={['tab-panel', { active: i === 0 }]} data-panel={k}>
+        <div>
+          <h3>{t.caps[k].h}</h3>
+          <p>{t.caps[k].p}</p>
+        </div>
+        <ul>
+          {t.caps[k].items.map((item) => (
+            <li><span>{item}</span><span class="n">→</span></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- How we work -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">{t.process.tag}</div>
+        <h2 class="section-title">{t.process.title}</h2>
+      </div>
+      <a href={localize('/contact', lang)} class="section-link">{t.process.link}</a>
+    </div>
+    <div class="work-log">
+      {t.process.steps.map((s, i) => (
+        <div class="work-row">
+          <div class="work-index">{String(i + 1).padStart(2, '0')}</div>
+          <div>
+            <span class="work-tag">{s.tag}</span>
+            <div class="work-name">{s.name}</div>
+          </div>
+          <div class="work-desc">{s.desc}</div>
+          <div class="work-arrow">→</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Built for enterprise: budget + security -->
+<section class="section" id="trust">
+  <div class="wrap">
+    <div class="section-tag">{t.trust.tag}</div>
+    <h2 class="section-title" style="margin-bottom: 32px;">{t.trust.title}</h2>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <span class="trust-label">{t.trust.budgetLabel}</span>
+        <h3>{t.trust.budgetH}</h3>
+        <p>{t.trust.budgetP}</p>
+      </div>
+      <div class="trust-card">
+        <span class="trust-label">{t.trust.securityLabel}</span>
+        <h3>{t.trust.securityH}</h3>
+        <p>{t.trust.securityP}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Playbooks & Field Notes (blog) -->
+<section class="section" id="playbooks">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">{t.insights.tag}</div>
+        <h2 class="section-title">{t.insights.title}</h2>
+      </div>
+      <a href={localize('/blog', lang)} class="section-link">{t.insights.all}</a>
+    </div>
+    <div class="playbook-grid">
+      {posts.length === 0 && (
+        <div class="playbook-card">
+          <div class="playbook-tag">Blog</div>
+          <div class="playbook-title">{t.insights.empty}</div>
+          <div class="playbook-status">{t.insights.emptyStatus}</div>
+        </div>
+      )}
+      {posts.map((p) => (
+        <a class="playbook-card" href={localize(`/blog/${p.id.replace(`${lang}/`, '')}`, lang)}>
+          <div class="playbook-tag">{p.data.tag}</div>
+          <div class="playbook-title">{p.data.title}</div>
+          <div class="playbook-status">{t.insights.read}</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="contact-cta">
+  <div class="wrap">
+    <div class="section-tag" style="justify-content:center; display:flex;">{t.cta.tag}</div>
+    <h2 class="cta-title">{t.cta.title}</h2>
+    <p class="cta-sub">{t.cta.sub}</p>
+    <div class="hero-ctas">
+      <a href={localize('/contact', lang)} class="pill pill-solid">{t.cta.button}</a>
+      <a href="mailto:hello@bicaralabs.com" class="pill pill-outline">hello@bicaralabs.com</a>
+    </div>
+  </div>
+</section>
+
+<script src="/site.js" is:inline defer></script>
+
+<style>
+  .hero--split { position: relative; overflow: hidden; }
+  .hero-art { position: absolute; top: 0; right: 0; bottom: 0; width: 55%; }
+  .hero-art-img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+  .hero-art-fade {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 55%, transparent) 16%, transparent 38%);
+  }
+  .hero--split .hero-inner { position: relative; z-index: 2; }
+  .hero--split .hero-content { max-width: 540px; }
+  @media (max-width: 860px) { .hero-art { display: none; } }
+  .hero-corner {
+    position: absolute; bottom: 20px; right: 24px; z-index: 2;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    padding: 5px 10px; border: 1px solid var(--line); border-radius: 2px;
+  }
+</style>
