@@ -28,14 +28,12 @@ jobs:
       - name: Set Short SHA
         id: shashort
         run: |
-          if [ "${{ github.event_name }}" = "push" ]; then
-            if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-              echo "SHORT_SHA=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-            else
-              echo "SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)" >> $GITHUB_OUTPUT
-            fi
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "SHORT_SHA=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "SHORT_SHA=$(echo "${{ github.event.pull_request.head.sha }}" | cut -c1-7)" >> $GITHUB_OUTPUT
+          else
+            echo "SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)" >> $GITHUB_OUTPUT
           fi
 
       - name: Build and push site
