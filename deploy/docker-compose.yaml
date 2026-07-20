@@ -1,0 +1,15 @@
+# Reference compose for the droplet. Place at /root/bicaralabs/docker-compose.yaml
+# on the demo droplet (134.209.104.223). The CI SSHes in and runs:
+#   docker compose pull site && docker compose up -d --no-deps site
+#
+# The container listens on :80 internally; it is published on a loopback host
+# port so the existing reverse proxy (nginx/caddy) can route bicaralabs.com to it.
+# NOTE: bind to 127.0.0.1 only — a bare HOST:CONTAINER mapping bypasses ufw
+# (Docker DNAT) and exposes the container publicly.
+services:
+  site:
+    image: docker.io/manaira/bicaralabs:latest
+    container_name: bicaralabs_site
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8087:80"
