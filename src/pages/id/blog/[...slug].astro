@@ -4,6 +4,7 @@ import Article from '../../../components/Article.astro';
 import { getCollection, render } from 'astro:content';
 import { ui } from '../../../i18n/ui';
 import { localize } from '../../../i18n/utils';
+import { AUTHOR } from '../../../config/author';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (e) => e.id.startsWith('id/') && !e.data.draft);
@@ -13,6 +14,11 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const dateStr = post.data.date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+const slug = post.id.replace('id/', '');
+const breadcrumbs = [
+  { name: 'Blog', href: '/id/blog' },
+  { name: post.data.title, href: `/id/blog/${slug}` },
+];
 ---
 
 <Layout
@@ -21,11 +27,14 @@ const dateStr = post.data.date.toLocaleDateString('id-ID', { day: 'numeric', mon
   image={post.data.cover}
   type="article"
   publishedTime={post.data.date.toISOString()}
+  breadcrumbs={breadcrumbs}
 >
   <Article
     tag={post.data.tag}
     title={post.data.title}
     dateStr={dateStr}
+    author={AUTHOR.name}
+    authorHref={localize('/about', 'id')}
     cover={post.data.cover}
     dwg={post.data.dwg}
     backHref={localize('/blog', 'id')}

@@ -1,0 +1,86 @@
+---
+// About / E-E-A-T page — names the human behind the work.
+// Copy is intentionally modest and factual; enrich specifics (years, named
+// outcomes, profile links) as they are confirmed — never inflate.
+import { AUTHOR } from '../config/author';
+import { localize } from '../i18n/utils';
+import type { Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    tag: 'About',
+    title: 'The people behind the work',
+    lead: 'Bicara Labs is a vendor-neutral AI enablement practice for businesses in Indonesia. We help teams decide where AI actually pays off, deploy it securely on their own infrastructure, and build the custom pieces that off-the-shelf tools do not cover.',
+    personTag: 'Who leads it',
+    personName: AUTHOR.name,
+    personRole: AUTHOR.jobTitle,
+    personBio: [
+      'Arif leads strategy and delivery at Bicara Labs. He works hands-on across the stack — from framing the business case for AI to shipping retrieval-augmented systems, LLM deployments, and WhatsApp-first agents into production.',
+      'The approach is deliberately vendor-neutral: the right model and the right infrastructure are whatever fit the client’s data, budget, and risk tolerance — not whatever a single vendor is selling.',
+    ],
+    knowsTitle: 'Areas of focus',
+    ctaText: 'Have a project in mind?',
+    ctaLink: 'Book a discovery call',
+  },
+  id: {
+    tag: 'Tentang',
+    title: 'Orang di balik pekerjaannya',
+    lead: 'Bicara Labs adalah praktik AI enablement yang vendor-neutral untuk bisnis di Indonesia. Kami membantu tim menentukan di mana AI benar-benar memberi hasil, menerapkannya secara aman di infrastruktur mereka sendiri, dan membangun bagian custom yang tidak dicakup alat siap pakai.',
+    personTag: 'Yang memimpin',
+    personName: AUTHOR.name,
+    personRole: 'Pendiri & Principal, Bicara Labs',
+    personBio: [
+      'Arif memimpin strategi dan eksekusi di Bicara Labs. Ia bekerja langsung di seluruh stack — dari menyusun business case untuk AI hingga membawa sistem retrieval-augmented, deployment LLM, dan agent berbasis WhatsApp ke produksi.',
+      'Pendekatannya sengaja vendor-neutral: model dan infrastruktur yang tepat adalah yang paling cocok dengan data, anggaran, dan toleransi risiko klien — bukan yang sedang dijual satu vendor.',
+    ],
+    knowsTitle: 'Area fokus',
+    ctaText: 'Punya proyek dalam pikiran?',
+    ctaLink: 'Jadwalkan konsultasi',
+  },
+}[lang];
+---
+
+<section class="section about-section">
+  <div class="wrap about-wrap">
+    <div class="section-tag">{copy.tag}</div>
+    <h1 class="section-title">{copy.title}</h1>
+    <p class="about-lead">{copy.lead}</p>
+
+    <div class="about-person">
+      <div class="section-tag">{copy.personTag}</div>
+      <h2 class="about-person-name">{copy.personName}</h2>
+      <div class="about-person-role">{copy.personRole}</div>
+      {copy.personBio.map((p) => <p class="about-bio">{p}</p>)}
+
+      <div class="about-knows">
+        <div class="about-knows-title">{copy.knowsTitle}</div>
+        <ul class="about-knows-list">
+          {AUTHOR.knowsAbout.map((k) => <li>{k}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <p class="about-cta">
+      {copy.ctaText} <a href={localize('/contact', lang)}>{copy.ctaLink} →</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .about-section { padding-top: 120px; }
+  .about-wrap { max-width: 720px; }
+  .about-lead { color: var(--ink-soft); font-size: 19px; line-height: 1.6; margin: 12px 0 48px; }
+  .about-person { border-top: 1px solid var(--line); padding-top: 32px; }
+  .about-person-name { font-size: 24px; margin: 8px 0 4px; }
+  .about-person-role { font-family: var(--font-mono); font-size: 13px; color: var(--ink-faint); margin-bottom: 20px; }
+  .about-bio { color: var(--ink-soft); line-height: 1.65; margin: 0 0 16px; }
+  .about-knows { margin-top: 28px; }
+  .about-knows-title { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .about-knows-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .about-knows-list li { font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; }
+  .about-cta { margin-top: 44px; font-size: 16px; }
+  .about-cta a { color: var(--signal-ink); text-decoration: underline; text-underline-offset: 2px; }
+</style>

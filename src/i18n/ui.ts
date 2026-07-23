@@ -1,7 +1,7 @@
 import type { Lang } from './utils';
 
 const en = {
-  nav: { approach: 'Approach', portfolio: 'Portfolio', blog: 'Blog', cta: 'Book a Discovery Call' },
+  nav: { approach: 'Approach', portfolio: 'Portfolio', blog: 'Blog', about: 'About', cta: 'Book a Discovery Call' },
   hero: {
     titleLead: 'Practical AI, ',
     titleEm: 'without the cost or the security risk.',
@@ -49,7 +49,7 @@ const en = {
   footer: {
     desc: 'Vendor-neutral AI enablement for businesses of any size in Indonesia — strategy, secure deployment, and custom builds. We build it, then hand it over.',
     links: 'Links', find: 'Find Us',
-    approach: 'Approach', portfolio: 'Portfolio', blog: 'Blog', contact: 'Contact',
+    approach: 'Approach', portfolio: 'Portfolio', blog: 'Blog', about: 'About', contact: 'Contact',
   },
   blog: { tag: 'Playbooks & Field Notes', title: 'Writing on practical AI adoption', empty: 'Posts are coming soon.', back: '← All posts' },
   portfolio: {
@@ -78,7 +78,7 @@ const en = {
 };
 
 const id: typeof en = {
-  nav: { approach: 'Pendekatan', portfolio: 'Portofolio', blog: 'Blog', cta: 'Jadwalkan Konsultasi' },
+  nav: { approach: 'Pendekatan', portfolio: 'Portofolio', blog: 'Blog', about: 'Tentang', cta: 'Jadwalkan Konsultasi' },
   hero: {
     titleLead: 'AI praktis, ',
     titleEm: 'tanpa biaya atau risiko berlebih.',
@@ -126,7 +126,7 @@ const id: typeof en = {
   footer: {
     desc: 'Enablement AI netral-vendor untuk bisnis segala ukuran di Indonesia — strategi, deployment aman, dan solusi khusus. Kami bangun, lalu kami serahkan.',
     links: 'Tautan', find: 'Temukan Kami',
-    approach: 'Pendekatan', portfolio: 'Portofolio', blog: 'Blog', contact: 'Kontak',
+    approach: 'Pendekatan', portfolio: 'Portofolio', blog: 'Blog', about: 'Tentang', contact: 'Kontak',
   },
   blog: { tag: 'Playbook & Catatan Lapangan', title: 'Tulisan tentang adopsi AI yang praktis', empty: 'Tulisan segera hadir.', back: '← Semua tulisan' },
   portfolio: {

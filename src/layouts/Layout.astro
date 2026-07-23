@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { getLangFromPath, switchLangPath } from '../i18n/utils';
+import { authorPerson } from '../config/author';
 
 interface Props {
   title: string;
@@ -12,6 +13,8 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   noindex?: boolean;
+  /** Breadcrumb trail: [{name, href}] from home to current page (home implied). */
+  breadcrumbs?: { name: string; href: string }[];
 }
 
 const {
@@ -22,6 +25,7 @@ const {
   publishedTime,
   modifiedTime,
   noindex = false,
+  breadcrumbs = [],
 } = Astro.props;
 
 const lang = getLangFromPath(Astro.url.pathname);
@@ -58,13 +62,32 @@ const article =
         datePublished: publishedTime,
         dateModified: modifiedTime ?? publishedTime,
         inLanguage: lang,
-        author: { '@type': 'Organization', name: 'bicaralabs' },
+        author: authorPerson(abs),
         publisher: {
           '@type': 'Organization',
           name: 'bicaralabs',
           logo: { '@type': 'ImageObject', url: abs('/logo.png') },
         },
         mainEntityOfPage: canonical,
+      }
+    : null;
+
+// BreadcrumbList — only when a trail is passed (home is position 1 implicitly).
+const homeName = lang === 'id' ? 'Beranda' : 'Home';
+const breadcrumbList =
+  breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: homeName, item: abs(lang === 'id' ? '/id' : '/') },
+          ...breadcrumbs.map((b, i) => ({
+            '@type': 'ListItem',
+            position: i + 2,
+            name: b.name,
+            item: abs(b.href),
+          })),
+        ],
       }
     : null;
 ---
@@ -113,6 +136,7 @@ const article =
 
     <script type="application/ld+json" set:html={JSON.stringify(org)} />
     {article && <script type="application/ld+json" set:html={JSON.stringify(article)} />}
+    {breadcrumbList && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />}
   </head>
   <body>
     <div class="grain"></div>

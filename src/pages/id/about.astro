@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import About from '../../components/About.astro';
+import { AUTHOR, authorPerson } from '../../config/author';
+
+const site = Astro.site ?? new URL('https://bicaralabs.com');
+const abs = (p: string) => new URL(p, site).href;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  ...authorPerson(abs),
+  worksFor: { '@type': 'Organization', name: 'Bicara Labs', url: abs('/') },
+};
+---
+
+<Layout
+  title="Tentang"
+  description={`${AUTHOR.name} — Pendiri & Principal Bicara Labs. AI enablement vendor-neutral untuk bisnis di Indonesia.`}
+  breadcrumbs={[{ name: 'Tentang', href: '/id/about' }]}
+>
+  <About lang="id" />
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+</Layout>

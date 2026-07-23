@@ -5,6 +5,8 @@ interface Props {
   tag: string;
   title: string;
   dateStr?: string;
+  author?: string;
+  authorHref?: string;
   summary?: string;
   outcome?: string;
   backHref: string;
@@ -12,7 +14,7 @@ interface Props {
   cover?: string;
   dwg?: string;
 }
-const { tag, title, dateStr, summary, outcome, backHref, backLabel, cover, dwg } = Astro.props;
+const { tag, title, dateStr, author, authorHref, summary, outcome, backHref, backLabel, cover, dwg } = Astro.props;
 ---
 
 <article class="section article-section">
@@ -21,7 +23,15 @@ const { tag, title, dateStr, summary, outcome, backHref, backLabel, cover, dwg }
     <div class="section-tag" style="margin-top: 28px;">{tag}</div>
     <h1 class="section-title" style="margin-bottom: 10px;">{title}</h1>
     {summary && <p class="project-summary">{summary}</p>}
-    {dateStr && <div class="article-date">{dateStr}</div>}
+    {(dateStr || author) && (
+      <div class="article-meta">
+        {author && (
+          <span class="article-byline">By {authorHref ? <a href={authorHref}>{author}</a> : author}</span>
+        )}
+        {author && dateStr && <span class="article-meta-sep">·</span>}
+        {dateStr && <span class="article-date-inline">{dateStr}</span>}
+      </div>
+    )}
     {outcome && <div class="project-outcome">{outcome}</div>}
     {cover && (
       <div class="article-cover">
@@ -36,6 +46,9 @@ const { tag, title, dateStr, summary, outcome, backHref, backLabel, cover, dwg }
   .article-section { padding-top: 120px; }
   .article-wrap { max-width: 720px; }
   .article-date { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); margin-bottom: 24px; }
+  .article-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint); margin-bottom: 24px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .article-byline a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 2px; }
+  .article-meta-sep { opacity: 0.5; }
   .article-cover { margin: 8px 0 36px; }
   .project-summary { color: var(--ink-soft); font-size: 18px; line-height: 1.6; margin: 0 0 16px; }
   .project-outcome {
