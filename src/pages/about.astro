@@ -1,23 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import About from '../components/About.astro';
-import { AUTHOR, authorPerson } from '../config/author';
+import { BRAND } from '../config/author';
 
 const site = Astro.site ?? new URL('https://bicaralabs.com');
 const abs = (p: string) => new URL(p, site).href;
 
-const personSchema = {
+const aboutSchema = {
   '@context': 'https://schema.org',
-  ...authorPerson(abs),
-  worksFor: { '@type': 'Organization', name: 'Bicara Labs', url: abs('/') },
+  '@type': 'AboutPage',
+  url: abs('/about'),
+  mainEntity: {
+    '@type': 'Organization',
+    name: BRAND.name,
+    url: abs('/'),
+    knowsAbout: BRAND.knowsAbout,
+  },
 };
 ---
 
 <Layout
   title="About"
-  description={`${AUTHOR.name} — ${AUTHOR.jobTitle}. Vendor-neutral AI enablement for businesses in Indonesia.`}
+  description="Bicara Labs — a vendor-neutral AI enablement practice for businesses in Indonesia. Strategy, secure deployment, and custom builds."
   breadcrumbs={[{ name: 'About', href: '/about' }]}
 >
   <About lang="en" />
-  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
 </Layout>

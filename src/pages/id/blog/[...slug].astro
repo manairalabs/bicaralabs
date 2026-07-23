@@ -4,7 +4,6 @@ import Article from '../../../components/Article.astro';
 import { getCollection, render } from 'astro:content';
 import { ui } from '../../../i18n/ui';
 import { localize } from '../../../i18n/utils';
-import { AUTHOR } from '../../../config/author';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (e) => e.id.startsWith('id/') && !e.data.draft);
@@ -33,8 +32,6 @@ const breadcrumbs = [
     tag={post.data.tag}
     title={post.data.title}
     dateStr={dateStr}
-    author={AUTHOR.name}
-    authorHref={localize('/about', 'id')}
     cover={post.data.cover}
     dwg={post.data.dwg}
     backHref={localize('/blog', 'id')}

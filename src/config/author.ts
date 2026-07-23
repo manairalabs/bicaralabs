@@ -1,12 +1,12 @@
-// Single source of truth for the site's author identity (E-E-A-T).
-// Google's strongest experience/expertise signal is a *named human* author, not
-// an Organization. Enrich `sameAs` (LinkedIn/GitHub/etc), `description`, and any
-// credentials once confirmed — keep every field factually true, never inflated.
-export const AUTHOR = {
-  name: 'Arif Setiawan',
-  jobTitle: 'Founder & Principal, Bicara Labs',
+// Authorship identity for the site (E-E-A-T).
+// The author is the BRAND, not a named individual (by choice — the principal
+// does not want to be named publicly). Google accepts Organization authorship;
+// trust is carried by the company About page, real methodology, and case-study
+// outcomes rather than a personal byline.
+export const BRAND = {
+  name: 'Bicara Labs',
   url: 'https://bicaralabs.com/about',
-  // Topics the author genuinely works in — safe, true entity signals.
+  // Topics the practice genuinely works in — safe, true entity signals.
   knowsAbout: [
     'AI enablement',
     'Retrieval-augmented generation (RAG)',
@@ -14,16 +14,11 @@ export const AUTHOR = {
     'Custom AI development',
     'AI strategy for Indonesian businesses',
   ] as string[],
-  // Add verified profile URLs here (LinkedIn, GitHub, X) after confirmation.
-  sameAs: [] as string[],
 }
 
-/** schema.org Person for the author, for use in article/breadcrumb JSON-LD. */
-export const authorPerson = (abs: (p: string) => string) => ({
-  '@type': 'Person',
-  name: AUTHOR.name,
-  jobTitle: AUTHOR.jobTitle,
-  url: abs('/about'),
-  knowsAbout: AUTHOR.knowsAbout,
-  ...(AUTHOR.sameAs.length ? { sameAs: AUTHOR.sameAs } : {}),
+/** schema.org Organization for the author, for use in article JSON-LD. */
+export const authorOrg = (abs: (p: string) => string) => ({
+  '@type': 'Organization',
+  name: BRAND.name,
+  url: abs('/'),
 })
