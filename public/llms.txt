@@ -1,0 +1,59 @@
+# Bicara Labs
+
+> Bicara Labs (bicaralabs.com) is a vendor-neutral AI enablement practice in Indonesia: AI strategy and ROI modelling, buy-or-build stack selection, secure and privately deployed AI, and custom builds — delivered on the client's own infrastructure and handed over to the client's team.
+
+Vendor-neutral is the operating constraint, not a slogan: Bicara Labs is not a reseller for any model provider or cloud, and has no product to push into an engagement. The stack is chosen per client — off-the-shelf tooling where it fits, a custom build where nothing does — and the work is designed to end in handover rather than a permanent dependency. Deployment defaults to the client's own infrastructure, private or self-hosted, with role-based access, guardrails, and local data-residency compliance in place from the start.
+
+Four service lines, end to end:
+
+- AI strategy and ROI — readiness assessment, use-case prioritisation, and cost/ROI modelling, so the plan is sized to an actual budget rather than run as a science project
+- Buy or build, vendor-neutral — tooling and vendor selection, custom stack builds, and a proven accelerator stack, with no lock-in
+- Secure and governed AI — private or self-hosted deployment, access controls and guardrails, data residency and compliance
+- Build, integrate, and enable — custom AI development, model fine-tuning, AI agents and automation, integration into systems already in use, and team enablement and handover
+
+The engagement shape is deliberately short and staged: week 1 scopes value, budget, and the definition of success before anything is built; weeks 2–3 select or design the stack and produce a technical plan rather than a slide deck; weeks 3–6 ship to production on the client's infrastructure with controls from day one; then training so the client's own team runs it. The recurring theme in the written work is avoiding pilot purgatory — one use case in production beats ten demos that never ship.
+
+Domain strengths are the Indonesian market specifically: WhatsApp-first customer agents, reliable results in Bahasa Indonesia, private deployment for enterprises with data-residency constraints, and right-sized governance for teams without a compliance department. Shipped work includes WhatsApp customer-service agents, internal knowledge assistants with cited sources, document-extraction pipelines, lead-qualification agents, and AI bookkeeping assistants. Bicara Labs also builds and operates Bicara (bicara.ai), an AI business platform for Indonesian SMBs — evidence the practice ships and runs production AI systems, not only advises on them.
+
+The site is published in English at the root and in Bahasa Indonesia under `/id/`; both carry the same content.
+
+## About
+
+- [Home](https://bicaralabs.com/): practical AI without the cost or the security risk — services, engagement process, and how the budget and security posture is set up front
+- [About](https://bicaralabs.com/about/): the practice, its vendor-neutral approach, and how engagements end in handover
+- [Book a discovery call](https://bicaralabs.com/contact/): describe the problem; reply within a day with where AI pays off and how it would be approached
+
+## Work
+
+- [Portfolio](https://bicaralabs.com/portfolio/): AI-powered products and projects shipped
+- [WhatsApp customer-service agent](https://bicaralabs.com/portfolio/whatsapp-customer-service-agent/): answers the routine majority of WhatsApp enquiries instantly, hands the rest to staff with full context
+- [Internal knowledge assistant](https://bicaralabs.com/portfolio/internal-knowledge-assistant/): search-and-answer layer over company documents with cited sources, so staff find answers in seconds
+- [Document-extraction pipeline](https://bicaralabs.com/portfolio/document-extraction-pipeline/): invoices and forms turned into structured, reviewed data — no retyping from PDFs
+- [Lead-qualification agent](https://bicaralabs.com/portfolio/lead-qualification-agent/): inbound leads scored and enriched automatically, so sales spends time on the ones worth calling
+- [AI bookkeeping assistant](https://bicaralabs.com/portfolio/ai-bookkeeping-assistant/): plain-language transaction entry and automated reconciliation on a live finance dashboard
+
+## Writing
+
+- [Blog](https://bicaralabs.com/blog/): playbooks and field notes on practical AI adoption
+- [From AI pilot to production in 90 days](https://bicaralabs.com/blog/from-pilot-to-production-in-90-days/): the path out of pilot purgatory — one use case shipped instead of ten demos
+- [Five AI use cases that pay for themselves first](https://bicaralabs.com/blog/five-ai-use-cases-that-pay-for-themselves/): where the payback maths is clearest, and where to start
+- [Buy, build, or both — choosing your AI stack](https://bicaralabs.com/blog/buy-build-or-both-choosing-your-ai-stack/): deciding without locking into a vendor you will regret
+- [Fine-tuning vs RAG vs prompting](https://bicaralabs.com/blog/fine-tuning-vs-rag-vs-prompting/): choosing in the right order instead of reaching for the expensive option first
+- [What custom AI actually costs](https://bicaralabs.com/blog/what-custom-ai-actually-costs/): a transparent breakdown of cost drivers and where budget gets wasted
+- [What custom RAG development actually costs in 2026](https://bicaralabs.com/blog/what-custom-rag-development-actually-costs-in-2026/): why model tokens are rarely the main cost driver
+- [Keeping enterprise data private when you deploy AI](https://bicaralabs.com/blog/keeping-enterprise-data-private-when-you-deploy-ai/): private deployment, access controls, and data residency for Indonesian enterprises
+- [Your own infrastructure or the cloud?](https://bicaralabs.com/blog/own-infrastructure-or-the-cloud/): cost, control, and security trade-offs without the ideology
+- [AI governance without a compliance department](https://bicaralabs.com/blog/ai-governance-without-a-compliance-department/): right-sized controls for teams that do not have one
+- [Getting good AI results in Bahasa Indonesia](https://bicaralabs.com/blog/good-ai-results-in-bahasa-indonesia/): what quietly wrecks quality in non-English deployments
+- [WhatsApp-first AI agents](https://bicaralabs.com/blog/whatsapp-first-ai-agents/): building for the channel Indonesians actually use, not a web chat widget
+
+## Optional
+
+Bahasa Indonesia versions of the same pages:
+
+- [Beranda](https://bicaralabs.com/id/)
+- [Tentang](https://bicaralabs.com/id/about/)
+- [Kontak](https://bicaralabs.com/id/contact/)
+- [Portofolio](https://bicaralabs.com/id/portfolio/)
+- [Blog](https://bicaralabs.com/id/blog/)
+- [Sitemap](https://bicaralabs.com/sitemap-index.xml)
