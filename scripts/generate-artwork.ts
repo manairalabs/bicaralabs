@@ -73,6 +73,8 @@ const IMAGES: { filename: string; aspect: string; subject: string; style?: strin
   // --- per-article blog covers (one representative drawing each) ---
   { filename: 'cover-costs', aspect: '16:9', subject:
     'an exploded AI system where each module is tagged like a line item in a bill of materials, with dimension lines and a small totals / cost table in the corner — a cost breakdown drawn as an engineering parts list' },
+  { filename: 'cover-rag-costs', aspect: '16:9', subject:
+    'a retrieval-augmented generation rig drawn as a machine and tagged like a bill of materials — documents fed through a chunking mill into an embedding press and a vector-store drum, a retrieval arm reaching back into the shelves to feed an answer engine, an evaluation test-bench with gauges clamped on the output line, and integration ports along one edge; dimension lines on each stage and a small cost / parts table in the corner' },
   { filename: 'cover-use-cases', aspect: '16:9', subject:
     'a catalogue plate of five distinct small machine modules in a row, each numbered 01–05 — a chat/handset agent, a document scanner, a knowledge-store drum, a report press, and a funnel — each a compact labelled technical sketch' },
   { filename: 'cover-governance', aspect: '16:9', subject:
