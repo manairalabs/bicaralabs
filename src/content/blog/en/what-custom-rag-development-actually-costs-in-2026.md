@@ -2,8 +2,9 @@
 title: "What Custom RAG Development Actually Costs in 2026"
 description: "Custom RAG pricing is often discussed as if it comes down to model tokens. In practice, that is rarely the main cost driver. Most of the budget in a..."
 date: 2026-07-25
-cover: ""
-tag: "Field Notes"
+cover: /artwork/cover-rag-costs.webp
+tag: Guide
+dwg: bcl-07
 draft: false
 ---
 
