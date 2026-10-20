@@ -7,8 +7,6 @@ tag: "production RAG for enterprise search"
 draft: false
 ---
 
-![Hand-drawn blue engineering blueprint of an enterprise RAG pipeline with chunking, retrieval, reranking, citations, and evaluation modules.](/blog/images/e6b3a6730e34.webp)
-
 Enterprise RAG often looks convincing in a demo. Upload a handful of documents, ask a question, and the model returns a plausible answer with a source link.
 
 Production is a different system.
