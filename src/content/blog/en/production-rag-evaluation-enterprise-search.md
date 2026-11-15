@@ -7,8 +7,6 @@ tag: "production RAG evaluation for enterprise search"
 draft: false
 ---
 
-# Production RAG for enterprise search: evaluation gates before you ship
-
 A convincing demo is not a release gate. A retrieval-augmented generation (RAG) system can answer a familiar question well and still miss a policy exception, retrieve an obsolete document, or expose information outside a user's permissions.
 
 Production RAG evaluation for enterprise search should test the entire path: question, authorization, retrieval, evidence selection, answer, and failure handling. Evaluate each stage separately, then test the user-visible result.

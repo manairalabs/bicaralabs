@@ -7,8 +7,6 @@ tag: "production RAG evaluation framework"
 draft: false
 ---
 
-![Hand-drawn blue engineering blueprint showing an exploded technical architecture for a production RAG enterprise-search system, including ingestion, chunking, retrieval, grounding checks, and monitoring.](/blog/images/7ca0e6b2484c.webp)
-
 Enterprise search is a production system, not a demo prompt.
 
 A retrieval-augmented generation (RAG) prototype can look convincing with a handful of clean documents and a few friendly questions. Production is different. Users ask incomplete questions. Source material changes. Permissions matter. Acronyms collide. A retriever returns something plausible but wrong. A model gives a fluent answer with a citation that does not support it.

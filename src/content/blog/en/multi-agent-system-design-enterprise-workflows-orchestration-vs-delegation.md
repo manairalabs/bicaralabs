@@ -7,8 +7,6 @@ tag: "multi-agent system design for enterprise workflows"
 draft: false
 ---
 
-![Ilustrasi arsitektur multi-agent enterprise dengan coordinator yang merutekan tugas ke specialist agents](/blog/images/54c3e799d9b1.webp)
-
 Desain **multi-agent system** untuk workflow enterprise bukan soal menambah lebih banyak agent. Yang lebih penting adalah memilih pola kontrol yang tepat. Dua pola yang paling sering muncul adalah **orchestration** dan **delegation**. Keduanya bisa bekerja. Keduanya juga bisa gagal saat masuk ke sistem produksi.
 
 Jika keputusan ini salah di awal, gejala yang muncul biasanya sama: agent saling melempar tugas, tool dipakai di luar batasnya, state tersembunyi sulit ditelusuri, dan prompt menjadi tambalan untuk masalah arsitektur. Karena itu, pemilihan antara orchestration dan delegation sebaiknya dilihat sebagai keputusan sistem, bukan sekadar keputusan prompt.
