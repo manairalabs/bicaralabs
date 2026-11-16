@@ -16,12 +16,19 @@ RUN apk add --no-cache curl
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# nginx config: SPA fallback + long-cache static assets
+# nginx config: SPA fallback + long-cache static assets.
+# absolute_redirect off: nginx sits behind the TLS proxy and only sees http, so an
+# absolute Location (e.g. the add-a-slash redirect) would send visitors to http://.
+# The /blog redirect retires a duplicate article (2026-11-12) in favour of 2026-10-15.
 RUN echo 'server { \
     listen 80; \
     server_name localhost; \
     root /usr/share/nginx/html; \
     index index.html; \
+    absolute_redirect off; \
+    location ~ ^/blog/production-rag-evaluation-enterprise-search/?$ { \
+        return 301 /blog/production-rag-evaluation-framework-enterprise-search/; \
+    } \
     location / { \
         try_files $uri $uri/ /index.html; \
     } \

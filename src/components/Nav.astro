@@ -5,6 +5,9 @@ import { getLangFromPath, localize, switchLangPath } from '../i18n/utils';
 const lang = getLangFromPath(Astro.url.pathname);
 const t = ui[lang].nav;
 const other = lang === 'en' ? 'id' : 'en';
+// A page without a translation (altPath null) switches to the other locale's blog index.
+const { altPath } = Astro.props as { altPath?: string | null };
+const toggleHref = altPath === null ? localize('/blog', other) : (altPath ?? switchLangPath(Astro.url.pathname, other));
 
 const links = [
   { href: localize('/#process', lang), label: t.approach },
@@ -24,7 +27,7 @@ const links = [
         {links.map((l) => <a class="link" href={l.href}>{l.label}</a>)}
       </div>
       <a class="pill pill-solid" href={localize('/contact', lang)}>{t.cta}</a>
-      <a class="lang-toggle" href={switchLangPath(Astro.url.pathname, other)}>{other.toUpperCase()}</a>
+      <a class="lang-toggle" href={toggleHref}>{other.toUpperCase()}</a>
     </div>
   </div>
 </div>
