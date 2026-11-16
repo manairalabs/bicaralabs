@@ -1,130 +1,128 @@
 ---
-title: "Desain Multi-Agent System untuk Enterprise Workflow: Kapan Memakai Orchestration vs Delegation"
-description: "Panduan teknis memilih orchestration atau delegation untuk multi-agent system enterprise, termasuk failure mode, routing, memory, tool access, evals, dan governance."
+title: "Multi-Agent System Design for Enterprise Workflows: When to Use Orchestration vs Delegation"
+description: "A technical guide to choosing orchestration or delegation for enterprise multi-agent systems, covering failure modes, routing, memory, tool access, evals, and governance."
 date: 2026-09-03
 cover: "/blog/images/54c3e799d9b1.webp"
 tag: "multi-agent system design for enterprise workflows"
 draft: false
 ---
 
-Desain **multi-agent system** untuk workflow enterprise bukan soal menambah lebih banyak agent. Yang lebih penting adalah memilih pola kontrol yang tepat. Dua pola yang paling sering muncul adalah **orchestration** dan **delegation**. Keduanya bisa bekerja. Keduanya juga bisa gagal saat masuk ke sistem produksi.
+Designing a **multi-agent system** for enterprise workflows is not about adding more agents. What matters more is choosing the right control pattern. The two patterns that come up most often are **orchestration** and **delegation**. Both can work. Both can also fail once they reach a production system.
 
-Jika keputusan ini salah di awal, gejala yang muncul biasanya sama: agent saling melempar tugas, tool dipakai di luar batasnya, state tersembunyi sulit ditelusuri, dan prompt menjadi tambalan untuk masalah arsitektur. Karena itu, pemilihan antara orchestration dan delegation sebaiknya dilihat sebagai keputusan sistem, bukan sekadar keputusan prompt.
+When this decision is wrong from the start, the symptoms tend to look the same: agents bounce tasks between each other, tools get used outside their limits, hidden state becomes hard to trace, and prompts turn into patches for architectural problems. That is why the choice between orchestration and delegation should be treated as a system decision, not a prompt decision.
 
-Artikel ini membahas kapan masing-masing pola layak dipakai, failure mode yang umum muncul di production, serta pola praktis untuk routing, memory, tool access, evals, dan governance sebelum sistem dikirim ke infrastruktur klien.
+This article covers when each pattern is worth using, the failure modes that commonly show up in production, and practical patterns for routing, memory, tool access, evals, and governance before a system ships to client infrastructure.
 
 ## Orchestration vs delegation in multi-agent systems
 
-Secara sederhana, **orchestration** berarti ada satu coordinator agent atau service layer yang memegang kontrol utama. Ia menerima objective, memecah pekerjaan, memilih specialist agent yang relevan, lalu menggabungkan hasilnya. Alur utamanya eksplisit. State lebih mudah diamati. Guardrail juga lebih mudah ditempatkan di satu titik kontrol.
+Put simply, **orchestration** means one coordinator agent or service layer holds primary control. It receives the objective, breaks the work down, picks the relevant specialist agents, and combines their results. The main flow is explicit. State is easier to observe. Guardrails are easier to place at a single point of control.
 
-Sebaliknya, **delegation** memberi lebih banyak otonomi pada agent. Satu agent dapat memutuskan untuk menyerahkan subtask ke agent lain berdasarkan konteks yang ia lihat. Pola ini lebih fleksibel untuk pekerjaan yang tidak sepenuhnya bisa dipetakan di awal, terutama ketika subtask bersifat dinamis atau bercabang.
+**Delegation**, by contrast, gives agents more autonomy. One agent can decide to hand a subtask to another agent based on the context it sees. This pattern is more flexible for work that cannot be fully mapped up front, especially when subtasks are dynamic or branch out.
 
-Kapan memakai **orchestration**?
+When should you use **orchestration**?
 
-- Saat workflow enterprise sudah cukup jelas langkah-langkahnya.
-- Saat kepatuhan, auditability, dan kontrol tool access menjadi prioritas.
-- Saat output harus konsisten lintas kasus.
-- Saat Anda perlu memastikan siapa melakukan apa, dengan input apa, dan keputusan apa yang diambil.
+- When the steps of the enterprise workflow are already reasonably clear.
+- When compliance, auditability, and control over tool access are priorities.
+- When output must be consistent across cases.
+- When you need to know who did what, with which input, and what decision was made.
 
-Kapan memakai **delegation**?
+When should you use **delegation**?
 
-- Saat ruang masalah lebih terbuka dan tidak semua subtask dapat diprediksi di awal.
-- Saat specialist agent memang punya peran domain yang jelas dan bisa mengambil keputusan lokal dengan aman.
-- Saat latency tambahan dari coordinator masih bisa diterima, atau justru pengurangan handoff manual memberi hasil lebih baik.
+- When the problem space is more open and not every subtask can be predicted up front.
+- When specialist agents have clear domain roles and can safely make local decisions.
+- When the extra latency of a coordinator is acceptable, or when reducing manual handoffs actually produces better results.
 
-Dalam praktik enterprise, pola yang paling aman jarang murni salah satu. Yang lebih umum adalah **bounded delegation**: coordinator tetap mengontrol objective, policy, dan batas tool access, sementara specialist agent boleh mendelegasikan subtask tertentu dalam ruang yang sudah dibatasi.
+In enterprise practice, the safest pattern is rarely purely one or the other. The more common choice is **bounded delegation**: the coordinator keeps control of the objective, policy, and tool-access limits, while specialist agents may delegate specific subtasks within a space that has already been constrained.
 
 ## The failure modes that show up in production
 
-Di demo, banyak sistem multi-agent terlihat rapi. Di production, masalahnya muncul cepat.
+In a demo, many multi-agent systems look tidy. In production, the problems appear quickly.
 
-**1. Loops dan handoff tanpa akhir**  
-Agent A mengirim ke Agent B. Agent B merasa konteksnya kurang lalu melempar kembali ke Agent A, atau ke Agent C yang akhirnya kembali lagi. Jika tidak ada termination condition yang tegas, sistem menghabiskan token dan waktu tanpa menambah kualitas hasil.
+**1. Loops and endless handoffs**  
+Agent A sends to Agent B. Agent B decides it lacks context and throws the task back to Agent A, or to Agent C, which eventually sends it back again. Without a firm termination condition, the system burns tokens and time without improving the result.
 
 **2. Tool misuse**  
-Agent diberi terlalu banyak tool, lalu mulai memilih tool yang salah karena deskripsi tool ambigu atau karena objective tidak cukup sempit. Di enterprise workflow, ini berbahaya. Tool bukan sekadar kemampuan tambahan; ia adalah permukaan risiko.
+An agent is given too many tools and starts picking the wrong one, because tool descriptions are ambiguous or the objective is not narrow enough. In enterprise workflows this is dangerous. A tool is not just an extra capability; it is a risk surface.
 
 **3. Hidden state**  
-Keputusan penting tersimpan di memori percakapan, prompt yang tidak terversi, atau intermediate context yang tidak tercatat rapi. Saat hasil salah, tim engineering sulit menjawab pertanyaan dasar: state apa yang dibaca agent, siapa yang mengubahnya, dan kapan.
+Important decisions live in conversation memory, unversioned prompts, or intermediate context that is not recorded properly. When a result is wrong, the engineering team struggles to answer basic questions: what state did the agent read, who changed it, and when?
 
 **4. Brittle prompts**  
-Arsitektur yang lemah sering ditutup dengan prompt yang makin panjang. Hasilnya terlihat baik pada beberapa contoh, lalu runtuh saat variasi input meningkat. Prompt memang penting, tetapi prompt tidak boleh menjadi pengganti kontrak antar-komponen.
+Weak architecture is often covered up with ever-longer prompts. The results look good on a few examples, then collapse as input variety grows. Prompts matter, but a prompt must not replace the contract between components.
 
-**5. Ownership yang kabur**  
-Jika semua agent boleh melakukan routing, validasi, dan eksekusi tool sekaligus, tidak ada titik yang benar-benar bertanggung jawab atas kualitas hasil akhir. Saat insiden terjadi, observability ada, tetapi accountability tidak ada.
+**5. Unclear ownership**  
+If every agent can route, validate, and execute tools at the same time, no single point is truly responsible for the quality of the final result. When an incident happens, there is observability but no accountability.
 
-Karena itu, sistem multi-agent yang layak dikirim ke klien harus dirancang untuk **traceability** sejak awal, bukan ditambahkan belakangan.
+That is why a multi-agent system fit to ship to a client must be designed for **traceability** from the start, not have it bolted on later.
 
 ## A practical pattern for routing, memory, and tool access
 
-Pola yang paling praktis untuk banyak workflow enterprise adalah memisahkan sistem ke dalam empat lapisan:
+The most practical pattern for many enterprise workflows separates the system into four layers:
 
-**1. Router atau coordinator**  
-Komponen ini menerima objective, membaca policy, dan menentukan jalur eksekusi. Ia tidak perlu menjadi agent yang “paling pintar”. Tugasnya adalah menjaga disiplin alur.
+**1. Router or coordinator**  
+This component receives the objective, reads the policy, and decides the execution path. It does not need to be the "smartest" agent. Its job is to keep the flow disciplined.
 
 **2. Specialist agents**  
-Setiap agent punya domain sempit. Misalnya: extraction, classification, drafting, validation, atau exception handling. Semakin jelas kontraknya, semakin kecil risiko prompt bleed dan tool misuse.
+Each agent has a narrow domain: for example extraction, classification, drafting, validation, or exception handling. The clearer the contract, the lower the risk of prompt bleed and tool misuse.
 
 **3. Tool gateway**  
-Jangan biarkan setiap agent bicara langsung ke semua tool. Bungkus tool lewat layer akses yang mencatat permintaan, menerapkan izin, dan memvalidasi input-output. Ini penting untuk governance.
+Do not let every agent talk directly to every tool. Wrap tools in an access layer that logs requests, enforces permissions, and validates inputs and outputs. This matters for governance.
 
 **4. State and memory layer**  
-Pisahkan working memory, task state, dan long-term context. Tidak semua hal harus masuk ke conversational memory. Simpan hanya konteks yang benar-benar diperlukan, dengan skema yang eksplisit.
+Separate working memory, task state, and long-term context. Not everything belongs in conversational memory. Keep only the context that is really needed, with an explicit schema.
 
-Beberapa aturan desain yang biasanya membantu:
+A few design rules that usually help:
 
-- **Gunakan structured handoff**, bukan sekadar natural-language handoff. Setiap agent sebaiknya menerima objective, input schema, batas keputusan, dan expected output yang jelas.
-- **Batasi tool per agent**. Lebih sedikit tool biasanya berarti keputusan lebih stabil.
-- **Tentukan stop conditions** di setiap cabang. Jika confidence rendah atau data tidak lengkap, naikkan ke jalur fallback, bukan teruskan delegasi.
-- **Pisahkan reasoning dari action** sejauh mungkin. Tidak semua reasoning perlu menjadi tindakan yang menyentuh sistem eksternal.
-- **Catat intermediate artifacts** yang penting. Ringkasan, klasifikasi, dan keputusan routing sebaiknya tersimpan sebagai state yang bisa diaudit.
+- **Use structured handoffs**, not just natural-language handoffs. Each agent should receive a clear objective, input schema, decision boundary, and expected output.
+- **Limit tools per agent**. Fewer tools usually means more stable decisions.
+- **Define stop conditions** on every branch. If confidence is low or data is incomplete, escalate to a fallback path instead of delegating further.
+- **Separate reasoning from action** as far as possible. Not every piece of reasoning needs to become an action that touches an external system.
+- **Record the important intermediate artifacts**. Summaries, classifications, and routing decisions should be stored as auditable state.
 
-Dengan pola ini, delegation tetap bisa dipakai, tetapi berada dalam pagar yang jelas. Ini biasanya lebih cocok untuk kebutuhan production daripada kebebasan penuh antar-agent.
+With this pattern, delegation can still be used, but inside clear fences. That usually suits production needs better than full freedom between agents.
 
 ## What to evaluate before shipping to client infra
 
-**Evals bukan tambahan riset. Evals adalah syarat shipping.** Tanpa evals, tim hanya tahu sistem terlihat bagus pada beberapa contoh. Itu belum cukup untuk enterprise workflow.
+**Evals are not a research extra. Evals are a condition for shipping.** Without evals, the team only knows the system looks good on a few examples. That is not enough for an enterprise workflow.
 
-Sebelum deployment ke infrastruktur klien, minimal evaluasi hal-hal berikut:
+Before deploying to client infrastructure, evaluate at least the following:
 
 **Task success**  
-Apakah sistem menyelesaikan objective dengan benar pada skenario normal dan edge case yang sudah didefinisikan?
+Does the system complete the objective correctly in normal scenarios and in the edge cases you have defined?
 
 **Routing quality**  
-Apakah coordinator memilih agent yang tepat? Apakah delegation terjadi hanya saat memang diperlukan?
+Does the coordinator pick the right agent? Does delegation happen only when it is actually needed?
 
 **Tool correctness**  
-Apakah tool yang dipanggil sesuai konteks? Apakah input ke tool valid? Apakah output tool ditangani dengan benar?
+Are the tools called appropriate to the context? Are tool inputs valid? Are tool outputs handled correctly?
 
 **Termination behavior**  
-Apakah loop terdeteksi? Apakah ada batas retry, escalation path, dan fallback yang konsisten?
+Are loops detected? Are there retry limits, an escalation path, and a consistent fallback?
 
 **State integrity**  
-Apakah memory yang dibawa antar-step memang relevan? Apakah ada state yang bocor, duplikat, atau tidak sinkron?
+Is the memory carried between steps actually relevant? Is any state leaking, duplicated, or out of sync?
 
 **Governance and policy adherence**  
-Apakah agent mematuhi batas akses, aturan approval, dan logging requirement?
+Do agents respect access limits, approval rules, and logging requirements?
 
-Di lingkungan klien, kualitas model saja tidak cukup. Yang dinilai adalah perilaku sistem secara keseluruhan. Karena itu, evaluasi harus mencakup **workflow**, **tooling**, **state**, dan **policy** sekaligus.
+In a client environment, model quality alone is not enough. What gets judged is the behavior of the whole system. That is why evaluation must cover **workflow**, **tooling**, **state**, and **policy** together.
 
-## Where multi-agent systems fit — and where they do not
+## Where multi-agent systems fit, and where they do not
 
-Multi-agent system cocok ketika masalah memang terdiri dari beberapa peran yang berbeda, ada kebutuhan koordinasi antar-subtask, dan nilai bisnis muncul dari workflow yang berjalan terus-menerus, bukan dari satu prompt tunggal.
+A multi-agent system fits when the problem really consists of several distinct roles, subtasks need coordinating, and the business value comes from a workflow that runs continuously rather than from a single prompt.
 
-Contohnya, sistem seperti ini masuk akal ketika ada kombinasi routing, validasi, ekstraksi, drafting, dan decision support dalam satu alur kerja yang harus bisa diamati dan dikendalikan.
+For example, such a system makes sense when routing, validation, extraction, drafting, and decision support are combined in one workflow that must be observable and controllable.
 
-Tetapi tidak semua masalah perlu multi-agent. Jika satu agent dengan tool yang dibatasi sudah cukup, jangan pecah sistem terlalu cepat. Menambah agent berarti menambah handoff, state, observability surface, dan area kegagalan. Kompleksitas hanya layak dibayar jika memang memberi kontrol atau kualitas yang lebih baik.
+But not every problem needs multiple agents. If one agent with a limited set of tools is enough, do not split the system too early. Adding agents means adding handoffs, state, observability surface, and failure areas. Complexity is only worth paying for when it buys better control or quality.
 
-Aturan praktisnya sederhana: **mulai dari arsitektur paling kecil yang bisa diaudit**. Tambahkan specialist agent hanya ketika ada alasan yang jelas, misalnya kebutuhan isolasi peran, perbedaan tool access, atau kebutuhan routing yang memang tidak nyaman ditangani dalam satu komponen.
+The practical rule is simple: **start with the smallest architecture you can audit**. Add a specialist agent only when there is a clear reason, such as the need to isolate a role, different tool access, or routing that is genuinely awkward to handle in one component.
 
-Untuk tim enterprise, pertanyaan yang tepat bukan “bisakah kita membuat banyak agent?” tetapi “struktur kontrol mana yang membuat workflow ini aman, dapat diaudit, dan benar-benar bisa dikirim ke production?”
+For enterprise teams, the right question is not "can we build many agents?" but "which control structure makes this workflow safe, auditable, and actually shippable to production?"
 
-Jika jawabannya menuntut kontrol ketat, pilih orchestration. Jika jawabannya menuntut fleksibilitas lokal dalam batas yang jelas, gunakan delegation yang dibatasi. Yang terpenting, jangan berhenti di konsep. Sistem seperti ini harus dibangun, diuji, dideploy, lalu dioptimalkan di lingkungan nyata.
+If the answer demands tight control, choose orchestration. If it demands local flexibility within clear limits, use bounded delegation. Most importantly, do not stop at the concept. Systems like this have to be built, tested, deployed, and then tuned in a real environment.
 
-## Penutup
+## Conclusion
 
-Desain multi-agent system untuk enterprise workflow adalah keputusan engineering. Orchestration memberi kontrol, auditability, dan konsistensi. Delegation memberi fleksibilitas, tetapi harus dibatasi dengan kontrak, state model, dan tool governance yang jelas. Dalam production, pemenangnya bukan pola yang paling menarik di demo. Pemenangnya adalah pola yang tetap stabil saat berhadapan dengan workflow nyata.
+Multi-agent system design for enterprise workflows is an engineering decision. Orchestration gives control, auditability, and consistency. Delegation gives flexibility, but it must be bounded by contracts, a state model, and clear tool governance. In production, the winner is not the pattern that looks most impressive in a demo. It is the pattern that stays stable when it meets real workflows.
 
-Jika tim Anda sedang merancang AI agent atau workflow enterprise yang harus benar-benar berjalan di infrastruktur klien, **Talk to Bicara Labs**. Kami membangun sistem AI yang siap dipakai di production — dari design sampai deployment — bukan sekadar memberi saran.
-
-30-min scoping call: https://bicaralabs.com/contact
+If your team is designing an AI agent or enterprise workflow that has to run in client infrastructure, [talk to Bicara Labs](https://bicaralabs.com/contact) for a 30-minute scoping call. We build AI systems that are ready for production, from design to deployment, not just advice.

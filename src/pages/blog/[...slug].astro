@@ -7,10 +7,16 @@ import { localize } from '../../i18n/utils';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (e) => e.id.startsWith('en/') && !e.data.draft);
-  return posts.map((post) => ({ params: { slug: post.id.replace('en/', '') }, props: { post } }));
+  const translated = new Set(
+    (await getCollection('blog', (e) => e.id.startsWith('id/') && !e.data.draft)).map((e) => e.id.replace('id/', '')),
+  );
+  return posts.map((post) => {
+    const slug = post.id.replace('en/', '');
+    return { params: { slug }, props: { post, hasTranslation: translated.has(slug) } };
+  });
 }
 
-const { post } = Astro.props;
+const { post, hasTranslation } = Astro.props;
 const { Content } = await render(post);
 const dateStr = post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 const slug = post.id.replace('en/', '');
@@ -27,6 +33,7 @@ const breadcrumbs = [
   type="article"
   publishedTime={post.data.date.toISOString()}
   breadcrumbs={breadcrumbs}
+  altPath={hasTranslation ? `/id/blog/${slug}` : null}
 >
   <Article
     tag={post.data.tag}

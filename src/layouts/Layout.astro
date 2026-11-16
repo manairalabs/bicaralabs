@@ -15,6 +15,12 @@ interface Props {
   noindex?: boolean;
   /** Breadcrumb trail: [{name, href}] from home to current page (home implied). */
   breadcrumbs?: { name: string; href: string }[];
+  /**
+   * Same page in the other locale. Defaults to the mirrored path. Pass `null`
+   * when the page has no translation (an article written in one language):
+   * hreflang then must not point at a URL that does not exist.
+   */
+  altPath?: string | null;
 }
 
 const {
@@ -26,6 +32,7 @@ const {
   modifiedTime,
   noindex = false,
   breadcrumbs = [],
+  altPath,
 } = Astro.props;
 
 const lang = getLangFromPath(Astro.url.pathname);
@@ -35,6 +42,7 @@ const abs = (p: string) => new URL(p, site).href;
 const canonical = abs(Astro.url.pathname);
 const enHref = abs(switchLangPath(Astro.url.pathname, 'en'));
 const idHref = abs(switchLangPath(Astro.url.pathname, 'id'));
+const translated = altPath !== null;
 const fullTitle = `${title} · bicaralabs`;
 const ogImage = abs(image);
 const ogLocale = lang === 'id' ? 'id_ID' : 'en_US';
@@ -110,9 +118,9 @@ const breadcrumbList =
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="en" href={enHref} />
-    <link rel="alternate" hreflang="id" href={idHref} />
-    <link rel="alternate" hreflang="x-default" href={enHref} />
+    {translated && <link rel="alternate" hreflang="en" href={enHref} />}
+    {translated && <link rel="alternate" hreflang="id" href={idHref} />}
+    {translated && <link rel="alternate" hreflang="x-default" href={enHref} />}
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="bicaralabs" />
@@ -124,7 +132,7 @@ const breadcrumbList =
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:locale:alternate" content={altLocale} />
+    {translated && <meta property="og:locale:alternate" content={altLocale} />}
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
 
@@ -140,7 +148,7 @@ const breadcrumbList =
   </head>
   <body>
     <div class="grain"></div>
-    <Nav />
+    <Nav altPath={altPath} />
     <slot />
     <Footer />
   </body>
